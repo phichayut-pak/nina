@@ -135,7 +135,7 @@ def display_recipes(filename):
         print("- Instructions")
         
         for index, instruction in enumerate(instructions, start=1):
-            print(f"        {index}. {instruction}")
+            print(f"     {index}. {instruction}")
 
         print(f"- Calories: {calories}\n")
         print("========================================================================\n")
