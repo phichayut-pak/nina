@@ -53,7 +53,7 @@ def add_recipe(filename, name, ingredients, instructions, calories):
     ingredients_str = '|'.join(ingredients)
     instructions_str = '|'.join(instructions)
 
-    new_recipe = f"{new_id};{name};{ingredients_str};{instructions_str};{calories}"
+    new_recipe = f"{new_id};{name};{ingredients_str};{instructions_str};{calories}\n"
 
     try:
         with open(filename, 'a') as file:
@@ -70,12 +70,15 @@ def update_recipe(filename, recipe_id, new_name, new_ingredients, new_instructio
     recipes = load(filename)
     updated = False
 
-    for index, recipe in enumerate(recipes):
+    for index, recipe in enumerate(recipes): 
+        # for index in range(len(recipes)) --> find index
+        # for recipe in recipes --> get recipe line by line
+
         recipe_data = recipe.strip().split(";")
         if int(recipe_data[0]) == int(recipe_id):
             ingredients_str = '|'.join(new_ingredients)
             instructions_str = '|'.join(new_instructions)
-            recipes[index] = f"{recipe_id};{new_name};{ingredients_str};{instructions_str};{new_calories}"
+            recipes[index] = f"{recipe_id};{new_name};{ingredients_str};{instructions_str};{new_calories}\n"
             updated = True
             break
 
@@ -91,14 +94,12 @@ def delete_recipe(filename, recipe_id):
     initial_count = len(recipes)
 
     new_recipes = []
-    
     for recipe in recipes:
         recipe_parts = recipe.split(";")
-
-        if int(recipe_parts[0]) != recipe_id:
+        if len(recipe_parts) >= 1 and int(recipe_parts[0]) != int(recipe_id):
             new_recipes.append(recipe)
 
-    if len(recipes) < initial_count:
+    if len(new_recipes) < initial_count:
         save(filename, new_recipes)
         print(f"Recipe with ID {recipe_id} deleted successfully.")
     else:
@@ -124,7 +125,7 @@ def display_recipes(filename):
         name = recipe[1]
         ingredients = recipe[2].split("|")
         instructions = recipe[3].split("|")
-        calories = int(recipe[4])
+        calories = recipe[4]
 
         print(f"{recipe_id}. {name}")
         print("- Ingredients")
@@ -137,9 +138,8 @@ def display_recipes(filename):
         for index, instruction in enumerate(instructions, start=1):
             print(f"     {index}. {instruction}")
 
-        print(f"- Calories: {calories}\n")
-        print("========================================================================\n")
-
+        print(f"- Calories: {calories}")
+        print("========================================================================")
 
 def filter_by_calories(filename, max_calories):
     recipes = load(filename)
@@ -195,7 +195,14 @@ DISPLAY_ART = """
 ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝     ╚══════╝╚══════╝
 """
 
-
+GOODBYE_ART = """
+ ██████╗  ██████╗  ██████╗ ██████╗     ██████╗ ██╗   ██╗███████╗
+██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗    ██╔══██╗╚██╗ ██╔╝██╔════╝
+██║  ███╗██║   ██║██║   ██║██║  ██║    ██████╔╝ ╚████╔╝ █████╗  
+██║   ██║██║   ██║██║   ██║██║  ██║    ██╔══██╗  ╚██╔╝  ██╔══╝  
+╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝    ██████╔╝   ██║   ███████╗
+ ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝     ╚═════╝    ╚═╝   ╚══════╝                                                             
+"""
 
 def main():
     filename = "recipes.txt"
@@ -214,7 +221,7 @@ def main():
 
         choice = input("Enter your choice (1-6): ")
         clear_screen()
-        
+
         match choice:
             case '1':
                 name = input("Enter the recipe name: ")
@@ -244,7 +251,8 @@ def main():
                 filter_by_calories(filename, max_calories)
             
             case '6':
-                print("Thank you for using the Recipe Manager. Goodbye!")
+                print(GOODBYE_ART)
+                print("Thank you for using the Recipe Manager.")
                 break
             
             case _:
@@ -256,3 +264,7 @@ def main():
 # Run the main program
 if __name__ == "__main__":
     main()
+
+
+# Source:
+# 1. https://patorjk.com/software/taag/

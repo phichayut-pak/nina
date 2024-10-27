@@ -7,4 +7,4 @@
 7;Chicken Stir Fry;Chicken Breast|Broccoli|Bell Pepper|Soy Sauce|Garlic|Olive Oil;Slice chicken and veggies|Stir fry garlic and chicken|Add veggies and soy sauce|Cook until tender;320
 8;Chocolate Mug Cake;Flour|Sugar|Cocoa Powder|Milk|Oil|Chocolate Chips;Mix dry ingredients|Add milk and oil|Stir in chocolate chips|Microwave for 1 minute;400
 9;Greek Yogurt Parfait;Greek Yogurt|Granola|Honey|Strawberries|Blueberries;Layer yogurt and fruit|Top with granola and honey;200
-10;Tomato Soup;Tomatoes|Onion|Garlic|Olive Oil|Salt|Pepper|Basil;Sauté onion and garlic|Add tomatoes and seasonings|Simmer until soft|Blend until smooth;180
+10;Tomato Soup;Tomatoes|Onion|Garlic|Olive Oil|Salt|Pepper|Basil;Sauté onion and garlic|Add tomatoes and seasonings|Simmer until soft|Blend until smooth;300
