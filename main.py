@@ -1,11 +1,14 @@
+#group 12 
 import os
 # example of recipe in txt
 # ID;Name;Ingredient1|Ingredient2|...;Instruction1|Instruction2|...;Calories
 
+#responsible by Pitsinee Chantarothai 
 def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")
 
-# * * Load the file and Returns as List
+#responsible by Pitsinee Chantarothai    
+# Load the file 
 def load(filename):
     try:
         with open(filename, 'r') as file:
@@ -13,27 +16,31 @@ def load(filename):
     except FileNotFoundError:
         print(f"Error: The file '{filename}' was not found.")
         recipes = []
+    except PermissionError:
+        print(f"Error: You do not have permission to read '{filename}'.")
+        recipes = []
+    except IsADirectoryError:
+        print(f"Error: '{filename}' is a directory, not a file.")
+        recipes = []
+    except UnicodeDecodeError:
+        print(f"Error: Could not decode '{filename}'. The file encoding may be unsupported.")
+        recipes = []
     except IOError:
         print(f"Error: Could not read file '{filename}'.")
         recipes = []
 
     return recipes
 
-# * * Overwrite the file
-def save(filename, recipes): #recipes are the whole recipes
+#responsible by Pitsinee Chantarothai  
+# Overwrite the file
+def save(filename, recipes): 
     try:
         with open(filename, 'w') as file:
             file.writelines(recipes) 
     except IOError:
         print(f"Error: Unable to write to file '{filename}'.")
 
-# example of recipe:
-
-# 'name': 'Smoothie',
-# 'ingredients': ['Banana', 'Yogurt', 'Honey'],
-# 'instructions': ['Blend all ingredients', 'Serve chilled'],
-# 'calories': 250
-
+#responsible by Suwaphit Dechritthirong
 def add_recipe(filename, name, ingredients, instructions, calories):
     recipes = load(filename)
 
@@ -44,7 +51,6 @@ def add_recipe(filename, name, ingredients, instructions, calories):
             current_id = int(recipe_parts[0])
             if(current_id > last_id):
                 last_id = current_id
-
     else:
         last_id = 0
 
@@ -64,7 +70,7 @@ def add_recipe(filename, name, ingredients, instructions, calories):
     except IOError:
         print(f"Error: Unable to write to file '{filename}'.")
 
-
+#responsible by Suwaphit Dechritthirong     
 # Update by ID
 def update_recipe(filename, recipe_id, new_name, new_ingredients, new_instructions, new_calories):
     recipes = load(filename)
@@ -88,6 +94,7 @@ def update_recipe(filename, recipe_id, new_name, new_ingredients, new_instructio
     else:
         print(f"Error: Recipe with ID: {recipe_id} not found.")
 
+#responsible by Voranipit Apichatchote  
 # Delete by ID
 def delete_recipe(filename, recipe_id):
     recipes = load(filename)
@@ -105,17 +112,7 @@ def delete_recipe(filename, recipe_id):
     else:
         print(f"Error: Recipe with ID {recipe_id} not found.")
 
-
-
-# 1. Pancakes
-# - Ingredients
-#       - Flour
-#       - Egg
-# - Instructions
-#       1. Mix ingredients
-#       2. Cook on pan
-# - Calories: 350       
-
+#responsible by Voranipit Apichatchote      
 def display_recipes(filename):
     recipes = load(filename)
     print("========================================================================\n")
@@ -138,9 +135,10 @@ def display_recipes(filename):
         for index, instruction in enumerate(instructions, start=1):
             print(f"     {index}. {instruction}")
 
-        print(f"- Calories: {calories}")
+        print(f"- Calories: {calories} kcal\n")
         print("========================================================================")
 
+#responsible by Voranipit Apichatchote  
 def filter_by_calories(filename, max_calories):
     recipes = load(filename)
 
@@ -172,11 +170,9 @@ def filter_by_calories(filename, max_calories):
         print(f"- Instructions")
         for i, instruction in enumerate(instructions, start=1):
             print(f"      {i}. {instruction}")
-        print(f"- Calories: {calories}\n")
-    
+        print(f"- Calories: {calories} kcal\n")
 
-
-
+#responsible by Pukjira Thanomwong  
 WELCOME_ART = """
 ██████╗ ███████╗ ██████╗██╗██████╗ ███████╗    ███╗   ███╗ █████╗ ███╗   ██╗ █████╗  ██████╗ ███████╗██████╗ 
 ██╔══██╗██╔════╝██╔════╝██║██╔══██╗██╔════╝    ████╗ ████║██╔══██╗████╗  ██║██╔══██╗██╔════╝ ██╔════╝██╔══██╗
@@ -185,7 +181,7 @@ WELCOME_ART = """
 ██║  ██║███████╗╚██████╗██║██║     ███████╗    ██║ ╚═╝ ██║██║  ██║██║ ╚████║██║  ██║╚██████╔╝███████╗██║  ██║
 ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝     ╚══════╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝                                                                                                     
 """
-
+     
 DISPLAY_ART = """
 ██████╗ ███████╗ ██████╗██╗██████╗ ███████╗███████╗
 ██╔══██╗██╔════╝██╔════╝██║██╔══██╗██╔════╝██╔════╝
@@ -203,7 +199,7 @@ GOODBYE_ART = """
 ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝    ██████╔╝   ██║   ███████╗
  ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝     ╚═════╝    ╚═╝   ╚══════╝                                                             
 """
-
+#responsible by Pitsinee Chantarothai
 def main():
     filename = "recipes.txt"
     clear_screen()
@@ -222,41 +218,40 @@ def main():
         choice = input("Enter your choice (1-6): ")
         clear_screen()
 
-        match choice:
-            case '1':
-                name = input("Enter the recipe name: ")
-                ingredients = input("Enter ingredients (separated by commas): ").split(", ")
-                instructions = input("Enter instructions (separated by commas): ").split(", ")
-                calories = input("Enter calories: ")
-                add_recipe(filename, name, ingredients, instructions, calories)
-            
-            case '2':
-                recipe_id = int(input("Enter the recipe ID to update: "))
-                new_name = input("Enter the new name: ")
-                new_ingredients = input("Enter new ingredients (separated by commas): ").split(", ")
-                new_instructions = input("Enter new instructions (separated by commas): ").split(", ")
-                new_calories = input("Enter new calories: ")
-                update_recipe(filename, recipe_id, new_name, new_ingredients, new_instructions, new_calories)
-            
-            case '3':
-                recipe_id = int(input("Enter the recipe ID to delete: "))
-                delete_recipe(filename, recipe_id)
-            
-            case '4':
-                print(DISPLAY_ART)
-                display_recipes(filename)
-            
-            case '5':
-                max_calories = int(input("Enter the maximum calories: "))
-                filter_by_calories(filename, max_calories)
-            
-            case '6':
-                print(GOODBYE_ART)
-                print("Thank you for using the Recipe Manager.")
-                break
-            
-            case _:
-                print("Invalid choice. Please try again.")
+        if choice == '1':
+            name = input("Enter the recipe name: ")
+            ingredients = input("Enter ingredients (separated by commas): ").split(", ")
+            instructions = input("Enter instructions (separated by commas): ").split(", ")
+            calories = input("Enter calories: ")
+            add_recipe(filename, name, ingredients, instructions, calories)
+        
+        elif choice == '2':
+            recipe_id = int(input("Enter the recipe ID to update: "))
+            new_name = input("Enter the new name: ")
+            new_ingredients = input("Enter new ingredients (separated by commas): ").split(", ")
+            new_instructions = input("Enter new instructions (separated by commas): ").split(", ")
+            new_calories = input("Enter new calories: ")
+            update_recipe(filename, recipe_id, new_name, new_ingredients, new_instructions, new_calories)
+        
+        elif choice == '3':
+            recipe_id = int(input("Enter the recipe ID to delete: "))
+            delete_recipe(filename, recipe_id)
+        
+        elif choice == '4':
+            print(DISPLAY_ART)
+            display_recipes(filename)
+        
+        elif choice == '5':
+            max_calories = int(input("Enter the maximum calories: "))
+            filter_by_calories(filename, max_calories)
+        
+        elif choice == '6':
+            print(GOODBYE_ART)
+            print("Thank you for using the Recipe Manager.")
+            break
+        
+        else:
+            print("Invalid choice. Please try again.")
 
         input("\nPress Enter to return to the main menu...")
         clear_screen()
@@ -264,7 +259,3 @@ def main():
 # Run the main program
 if __name__ == "__main__":
     main()
-
-
-# Source:
-# 1. https://patorjk.com/software/taag/
